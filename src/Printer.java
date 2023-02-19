@@ -1,10 +1,10 @@
 public class Printer {
     public void printArray(String[][] array){
-        System.out.print("Cinema:");
+        printInConsole("Cinema:");
         for (String[] strings : array) {
-            System.out.println();
+            printInConsole("\n");
             for (String string : strings) {
-                System.out.print(string + " ");
+                printInConsole(string + " ");
             }
         }
     }
@@ -13,5 +13,9 @@ public class Printer {
         System.out.println("2. Buy a ticket");
         System.out.println("3. Statistics");
         System.out.println("0. Exit");
+    }
+
+    public void printInConsole(String s){
+        System.out.print(s);
     }
 }
