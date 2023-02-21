@@ -1,34 +1,31 @@
 import java.text.DecimalFormat;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Cinema {
 
     public static void main(String[] args) {
-        int rows;
         int row = 0;
-        int seats;
         int seat = 0;
+        int rows = 0;
+        int seats = 0;
         int price;
-        int choice;
+        int choice = 0;
         boolean isDone = false;
         boolean isValid;
+        boolean fullCinema;
         int purchasedTickets = 0;
         int income = 0;
         int totalIncome;
         float percentages = 0;
-
         Scanner scanner = new Scanner(System.in);
         Printer printer = new Printer();
         ArrayManager arrayManager = new ArrayManager();
+        Checker checker = new Checker();
         DecimalFormat format = new DecimalFormat("#,##0.00");
 
 
-        printer.printInConsole("Enter the number of rows:\n");
-        rows = scanner.nextInt();
-        printer.printInConsole("Enter the number of seats in each row:\n");
-        seats = scanner.nextInt();
-
+        rows = checker.getSeatsRows(rows, true, scanner, printer, "rows");
+        seats = checker.getSeatsRows(seats, true, scanner, printer, "seats");
 
         int front = rows / 2;
         totalIncome = rows * seats > 60 ? front * seats * 10 + (rows - front) * seats * 8 : rows * seats * 10;
@@ -37,46 +34,40 @@ public class Cinema {
         arrayManager.fillArrayBase(arr, rows, seats);
 
         do {
-            printer.printMenu();
-            choice = scanner.nextInt();
-
+            choice = checker.getChoice(choice, true, scanner, printer);
             switch (choice) {
                 case 1:
                     printer.printArray(arr);
                     printer.printInConsole("\n");
                     break;
                 case 2:
-                    do {
-                        try {
-                            printer.printInConsole("Enter a row number:\n");
-                            row = scanner.nextInt();
-                            printer.printInConsole("Enter a seat number in that row:\n");
-                            seat = scanner.nextInt();
+                    fullCinema = checker.isFullCinema(arr, false);
+                    if (fullCinema) {
+                        printer.printInConsole("No seats available.\n");
+                    } else {
+                        do {
+                            row = checker.getRow(row, true, scanner, printer, rows);
+                            seat = checker.getSeat(seat, true, scanner, printer, seats);
                             if (arr[row][seat].equals("B")) {
                                 isValid = false;
                                 printer.printInConsole("That ticket has already been purchased!\n");
                             } else {
                                 isValid = true;
                             }
-
-                        } catch (InputMismatchException e) {
-                            printer.printInConsole("Wrong input!\n");
-                            isValid = true;
+                        } while (!isValid);
+                        if ((rows * seats < 60)) {
+                            price = 10;
+                        } else if ((rows * seats > 60 && row <= rows / 2)) {
+                            price = 10;
+                        } else {
+                            price = 8;
                         }
-                    } while (!isValid);
-
-                    if ((rows * seats < 60)) {
-                        price = 10;
-                    } else if ((rows * seats > 60 && row <= rows / 2)) {
-                        price = 10;
-                    } else {
-                        price = 8;
+                        printer.printInConsole(String.format("Ticket price: $%d\n", price));
+                        arrayManager.arrayPlaceBought(arr, row, seat);
+                        purchasedTickets += 1;
+                        income += price;
+                        percentages = ((float) purchasedTickets / (seats * rows)) * 100;
                     }
-                    printer.printInConsole(String.format("Ticket price: $%d\n", price));
-                    arrayManager.arrayPlaceBought(arr, row, seat);
-                    purchasedTickets += 1;
-                    income += price;
-                    percentages = ((float) purchasedTickets / (seats * rows)) * 100;
                     break;
                 case 3:
                     printer.printInConsole(String.format("Number of purchased tickets: %d\n", purchasedTickets));
@@ -89,10 +80,9 @@ public class Cinema {
                     isDone = true;
                     break;
                 default:
-                    printer.printInConsole("There is no option like this!\n");
+                    printer.printInConsole("There is no option like this.\n");
                     break;
             }
         } while (!isDone);
-
     }
 }
