@@ -1,4 +1,6 @@
 public class ArrayManager {
+
+    //Filling the cinema room (in the form of a 2-dimension array) with accessible places
     public void fillArrayBase(String[][] arr, int x, int y) {
         for (int i = 0; i < x + 1; i++) {
             for (int j = 0; j < y + 1; j++) {
@@ -12,6 +14,7 @@ public class ArrayManager {
         }
     }
 
+    //Changing the seat available in the cinema room to a purchased one.
     public void arrayPlaceBought(String[][] arr, int x, int y) {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 9; j++) {

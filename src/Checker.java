@@ -3,6 +3,8 @@ import java.util.Scanner;
 
 public class Checker {
 
+
+    //Validation of input when creating a cinema room. (Enter a non-digit number or a number less than 1).
     public int getSeatsRows(int seats, boolean isChecked, Scanner scanner, Printer printer, String seat) {
         printer.printInConsole(String.format("Enter the number of %s:\n", seat));
         while (isChecked) {
@@ -14,7 +16,7 @@ public class Checker {
                 }
                 isChecked = false;
 
-            } catch (Exception e) {
+            } catch (InputMismatchException e) {
                 printer.printInConsole(String.format("Wrong input, enter the number %s:\n", seat));
                 scanner.next();
             }
@@ -22,6 +24,8 @@ public class Checker {
         return seats;
     }
 
+    //Menu printing and input verification (Enter a non-digit input).
+    //Verification of the number other than in the menu checked at the switch-case.
     public int getChoice(int choice, boolean isChecked, Scanner scanner, Printer printer) {
         while (isChecked) {
             try {
@@ -29,13 +33,16 @@ public class Checker {
                 choice = scanner.nextInt();
                 isChecked = false;
             } catch (InputMismatchException e) {
-                System.out.println("Wrong input, enter the number from menu.");
+                printer.printInConsole("Wrong input, enter the number from menu.\n");
                 scanner.next();
             }
         }
         return choice;
     }
 
+    //getRow and getSeat methods:
+    //Checking the input of the selected place of the cinema hall (Entering a number less than 1, entering a number
+    //greater than the number of rows/seats, entering a non-digit input)
     public int getRow(int row, boolean isChecked, Scanner scanner, Printer printer, int rows) {
         printer.printInConsole("Enter a row number:\n");
         while (isChecked) {
@@ -51,7 +58,7 @@ public class Checker {
                 }
                 isChecked = false;
             } catch (InputMismatchException e) {
-                System.out.println("Wrong input, enter a row number.");
+                printer.printInConsole("Wrong input, enter a row number.\n");
                 scanner.next();
             }
         }
@@ -73,13 +80,15 @@ public class Checker {
                 }
                 isChecked = false;
             } catch (InputMismatchException e) {
-                System.out.println("Wrong input, enter a row number.");
+                printer.printInConsole("Wrong input, enter a row number.\n");
                 scanner.next();
             }
         }
         return seat;
     }
 
+
+    //Checking if the cinema room has free seats.
     public boolean isFullCinema(String[][] arr, boolean fullCinema) {
         for (int i = 1; i < arr.length; i++) {
             for (int j = 1; j < arr[i].length; j++) {
