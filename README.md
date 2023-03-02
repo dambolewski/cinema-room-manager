@@ -12,4 +12,4 @@ I added to the application, which passed all tests on the HyperSkill website, ex
 Everything shows that the application shold work properly :)
 
 ## Preview
-![Cinema](https://user-images.githubusercontent.com/56168607/220973523-99fe4dad-63ad-4b61-b517-2a63c2af9544.gif)
+![cinema](https://user-images.githubusercontent.com/56168607/222486878-2a74809d-b40c-4d24-8f2c-2dc81b75e036.gif)
